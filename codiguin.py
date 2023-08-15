@@ -5,10 +5,21 @@ import time
 #definição dos pinos do raspberry (não necessário por enquanto)
 fifoptraddr = 0x00
 fifotxbaseaddr = 0x80
+#Constantes que representam o modo de operação
+SLEEP    = 0x80
+STDBY    = 0x81
+FSTX     = 0x82
+TX       = 0x83
+FSRX     = 0x84
+RXCONT   = 0x85
+RXSINGLE = 0x86
+CAD      = 0x87
+FSK_STDBY= 0x01
 Lora = spidev.SpiDev()
 Lora.open(0,0)
+Lora.spi.xfer2(0x01 & 0x7F, STDBY)
+Lora.spi.xfer2(fifoptraddr & 0x7F, fifotxbaseaddr)
 while True:
-    Lora.spi.xfer2(fifoptraddr & 0x7F, fifotxbaseaddr)
     dados = {
         "nome": "Joao",
         "idade": 30,
@@ -17,3 +28,4 @@ while True:
     dados2 = json.dumps(dados)
     payload = bytes(dados2, 'utf-8')
     Lora.xfer2(payload)
+    Lora.spi.xfer2(0x01 & 0x7F, 0x83)
