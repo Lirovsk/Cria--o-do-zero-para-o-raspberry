@@ -30,4 +30,6 @@ while True:
     payload_length = [len(payload)]
     Lora.xfer2(payload_length)
     Lora.xfer2(payload)
-    Lora.xfer2(0x01 & 0x7F, 0x83)
+    Lora.xfer2([(0x01)&0x7F | 0x83])
+    print("Enviando...\n")
+    time.sleep(2)
