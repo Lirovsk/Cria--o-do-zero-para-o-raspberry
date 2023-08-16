@@ -29,7 +29,7 @@ FSK_STDBY= 0x01
 Lora = spidev.SpiDev()
 Lora.open(0,0)
 set_freq(915.0)
-Lora.xfer2([(0x01| 0x80, STDBY)])
+Lora.xfer2([(0x01| STDBY)])
 Lora.xfer2([0x0E | 0x80, localtxaddr])
 Lora.xfer2([(fifoptraddr) | 0x80, localtxaddr])
 while True:
