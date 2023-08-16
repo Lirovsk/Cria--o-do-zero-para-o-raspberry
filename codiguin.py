@@ -4,7 +4,8 @@ import time
 
 #definição dos pinos do raspberry (não necessário por enquanto)
 fifoptraddr = 0x00
-fifotxbaseaddr = 0x80
+localtxaddr = 0xBB
+destino = 0xBC
 
 #defina a função de setar a frequencia do Lora
 def set_freq(f):
@@ -27,9 +28,10 @@ CAD      = 0x87
 FSK_STDBY= 0x01
 Lora = spidev.SpiDev()
 Lora.open(0,0)
-Lora.xfer2([((0x01)& 0x7F | STDBY)])
-Lora.xfer2([(fifoptraddr) & 0x7F | fifotxbaseaddr])
 set_freq(915.0)
+Lora.xfer2([(0x01| 0x80, STDBY)])
+Lora.xfer2([0x0E | 0x80, localtxaddr])
+Lora.xfer2([(fifoptraddr) | 0x80, localtxaddr])
 while True:
     #dados = {
     #    "nome": "Joao",
@@ -40,6 +42,8 @@ while True:
     dados2 = json.dumps(dados)
     payload = bytes(dados2, 'utf-8')
     payload_length = [len(payload)]
+    Lora.xfer2([0xBC])
+    Lora.xfer([localtxaddr])
     Lora.xfer2(payload_length)
     Lora.xfer2(payload)
     Lora.xfer2([(0x01)&0x7F | 0x83])
