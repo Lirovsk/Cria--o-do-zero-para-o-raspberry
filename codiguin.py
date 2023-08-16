@@ -7,14 +7,14 @@ fifoptraddr = 0x00
 fifotxbaseaddr = 0x80
 
 #defina a função de setar a frequencia do Lora
-def set_freq(self, f):
+def set_freq(f):
         i = int(f * 16384.)    # choose floor
         msb = i // 65536
         i -= msb * 65536
         mid = i // 256
         i -= mid * 256
         lsb = i
-        return self.spi.xfer([REG.LORA.FR_MSB | 0x80, msb, mid, lsb])
+        return Lora.xfer([ 0x06 | 0x80, msb, mid, lsb])
 #Constantes que representam o modo de operação
 SLEEP    = 0x80
 STDBY    = 0x81
