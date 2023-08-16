@@ -27,5 +27,7 @@ while True:
     }
     dados2 = json.dumps(dados)
     payload = bytes(dados2, 'utf-8')
+    payload_length = len(payload)
+    Lora.xfer2(payload_length)
     Lora.xfer2(payload)
     Lora.xfer2(0x01 & 0x7F, 0x83)
