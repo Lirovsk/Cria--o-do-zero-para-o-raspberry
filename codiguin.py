@@ -29,7 +29,7 @@ Lora = spidev.SpiDev()
 Lora.open(0,0)
 Lora.xfer2([((0x01)& 0x7F | STDBY)])
 Lora.xfer2([(fifoptraddr) & 0x7F | fifotxbaseaddr])
-Lora.set_freq(915.0)
+set_freq(915.0)
 while True:
     #dados = {
     #    "nome": "Joao",
