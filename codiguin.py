@@ -17,8 +17,8 @@ CAD      = 0x87
 FSK_STDBY= 0x01
 Lora = spidev.SpiDev()
 Lora.open(0,0)
-Lora.xfer2(0x01 & 0x7F | STDBY)
-Lora.xfer2(fifoptraddr & 0x7F | fifotxbaseaddr)
+Lora.xfer2((0x01)& 0x7F | STDBY)
+Lora.xfer2((fifoptraddr) & 0x7F | fifotxbaseaddr)
 while True:
     dados = {
         "nome": "Joao",
