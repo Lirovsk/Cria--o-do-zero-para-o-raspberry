@@ -70,15 +70,16 @@ spi.open(0,0)
 spi.max_speed_hz = 500000
 
 #escrita do registro FIFO
-spi.xfer2(LORA.OP_MODE | 0x80, MODE.STDBY)
+spi.xfer2([LORA.OP_MODE | 0x80, MODE.STDBY])
 spi.xfer2([LORA.FIFO_TX_BASE_ADDR | 0x80, 0x00])
 
 #Tratamento da mensagem
-dados = {
-        "nome": "Joao",
-        "idade": 30,
-        "cidade": "Sao Paulo"
-    }
+#dados = {
+#        "nome": "Joao",
+#        "idade": 30,
+#        "cidade": "Sao Paulo"
+#    }
+dados = "oi, supernova"
 
 dados2 = json.dumps(dados)
 payload = bytes(dados2, 'utf-8')
@@ -91,5 +92,5 @@ while True:
     spi.xfer2([LORA.PAYLOAD_LENGTH | 0x80, payload_length])
     for byte in payload:
         spi.xfer2([LORA.FIFO | 0x80, byte])
-    spi.xfer2(LORA.OP_MODE | 0x80, MODE.TX)
+    spi.xfer2([LORA.OP_MODE | 0x80, MODE.TX])
     print("Mensagem enviada")
