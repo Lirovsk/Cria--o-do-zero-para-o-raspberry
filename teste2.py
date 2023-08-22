@@ -70,7 +70,7 @@ spi.open(0,0)
 spi.max_speed_hz = 500000
 
 #escrita do registro FIFO
-spi.xfer2(LORA.OP_MODE | 0x80, MODE.STDBY)
+spi.xfer2([LORA.OP_MODE | 0x80, MODE.STDBY])
 spi.xfer2([LORA.FIFO_TX_BASE_ADDR | 0x80, 0x00])
 
 #Tratamento da mensagem
