@@ -3,6 +3,17 @@ import spidev
 import json
 import RPi.GPIO as GPIO
 #definição das constanstes a sertem usadas
+class MODE:
+    SLEEP    = 0x80
+    STDBY    = 0x81
+    FSTX     = 0x82
+    TX       = 0x83
+    FSRX     = 0x84
+    RXCONT   = 0x85
+    RXSINGLE = 0x86
+    CAD      = 0x87
+    FSK_STDBY= 0x01 
+
 class LORA:
     FIFO               = 0x00
     OP_MODE            = 0x01
@@ -59,6 +70,7 @@ spi.open(0,0)
 spi.max_speed_hz = 500000
 
 #escrita do registro FIFO
+spi.xfer2(LORA.OP_MODE | 0x80, MODE.STDBY)
 spi.xfer2([LORA.FIFO_TX_BASE_ADDR | 0x80, 0x00])
 
 #Tratamento da mensagem
@@ -76,5 +88,7 @@ payload_length = [len(payload)]
 while True:
     spi.xfer2([LORA.FIFO_ADDR_PTR | 0x80, 0x00])
     spi.xfer2([LORA.PAYLOAD_LENGTH | 0x80, payload_length[0]])
-    spi.xfer2([LORA.FIFO | 0x80, payload])
+    for byte in payload:
+        spi.xfer2([LORA.FIFO | 0x80, byte])
+    spi.xfer2(LORA.OP_MODE | 0x80, MODE.TX)
     print("Mensagem enviada")
