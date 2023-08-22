@@ -81,8 +81,8 @@ spi.xfer2([LORA.FIFO_TX_BASE_ADDR | 0x80, 0x00])
 #    }
 dados = "oi, supernova"
 
-dados2 = json.dumps(dados)
-payload = bytes(dados2, 'utf-8')
+#dados2 = json.dumps(dados)
+payload = bytes(dados, 'utf-8')
 payload_length = len(payload)
 
 
