@@ -90,5 +90,5 @@ while True:
     spi.xfer2([LORA.PAYLOAD_LENGTH | 0x80, payload_length[0]])
     for byte in payload:
         spi.xfer2([LORA.FIFO | 0x80, byte])
-    spi.xfer2(LORA.OP_MODE | 0x80, MODE.TX)
+    spi.xfer2([LORA.OP_MODE | 0x80, MODE.TX])
     print("Mensagem enviada")
