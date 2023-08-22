@@ -69,7 +69,7 @@ dados = {
     }
 
 dados2 = json.dumps(dados)
-payload = bytes(dados2, 'utf-8')
+payload = [bytes(dados2, 'utf-8')]
 payload_length = [len(payload)]
 
 #Escrita do payload no FIFO
