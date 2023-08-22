@@ -83,14 +83,21 @@ dados = "oi, supernova"
 
 #dados2 = json.dumps(dados)
 payload = bytes(dados, 'utf-8')
+print("payload convertida em bytes")
 payload_length = len(payload)
-
+print("tamanho da payload calculado")
 
 #Escrita do payload no FIFO
 while True:
     spi.xfer2([LORA.FIFO_ADDR_PTR | 0x80, 0x00])
+    print("fifoaddr configurado")
     spi.xfer2([LORA.PAYLOAD_LENGTH | 0x80, payload_length])
+    print("tamanho da payload configurado")
     for byte in payload:
         spi.xfer2([LORA.FIFO | 0x80, byte])
+    
+    print("payload escrito no fifo")
     spi.xfer2([LORA.OP_MODE | 0x80, MODE.TX])
+    print("mode de operacao TX")
     print("Mensagem enviada")
+    time.sleep(2)
