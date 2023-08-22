@@ -77,5 +77,6 @@ payload_length = len(payload)
 while True:
     spi.xfer2([LORA.FIFO_ADDR_PTR | 0x80, 0x00])
     spi.xfer2([LORA.PAYLOAD_LENGTH | 0x80, payload_length])
-    spi.xfer2([0x80 | LORA.FIFO] + [payload])
+    for byte in payload:
+        spi.xfer2([LORA.FIFO | 0x80, byte])
     print("Mensagem enviada")
